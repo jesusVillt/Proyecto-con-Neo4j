@@ -320,8 +320,10 @@ class BlogDesktopApp:
         # dentro de este query hacemos lo siguiente:
         # buscamos el usuario, este tiene que existir, de lo contrario no podemos publicar un articulo
         # creamos el articulo y se lo asociamos al usuario
-        # desempaquetamos las categorias
-        # y las unimos con el articulo, esto se hace con MARGE, muy imporatne
+        # desempaquetamos las categorias y las etiquetas para unirlas con el articulo
+        # si la categoria o etiqueta no existe se crea, si ya existe se usa la misma
+        # las relaciones tambien van con MERGE, si ya existe no se vuelve a crear
+        # asi evitamos que un articulo quede conectado dos veces al mismo tag
         query = """
         MATCH (u:User {email: $email})
         CREATE (a:Article {title: $title, date: $date, text: $text})
@@ -330,12 +332,12 @@ class BlogDesktopApp:
         UNWIND $cats AS cat_name
         MERGE (c:Category {name: cat_name})
         ON CREATE SET c.url = '/categorias/' + toLower(replace(cat_name, ' ', '-'))
-        CREATE (a)-[:IN_CATEGORY]->(c)
+        MERGE (a)-[:IN_CATEGORY]->(c)
         WITH a
         UNWIND $tags AS tag_name
         MERGE (t:Tag {name: tag_name})
         ON CREATE SET t.url = '/tags/' + toLower(replace(tag_name, ' ', '-'))
-        CREATE (a)-[:HAS_TAG]->(t)
+        MERGE (a)-[:HAS_TAG]->(t)
         RETURN a.title AS title
         """  
         # mandamos a ejectar el query y le pasamos sus respectivos parametros
