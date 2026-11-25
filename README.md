@@ -70,3 +70,9 @@ El programa incorpora diferentes validaciones para evitar inconsistencias en la 
 ## Objetivo del proyecto
 
 Desarrollar una aplicación gráfica que permita interactuar de manera sencilla con una base de datos orientada a grafos, demostrando el uso de Neo4j para modelar relaciones entre diferentes entidades y realizar operaciones de administración de información
+
+
+## Integrantes
+* Amir Ovedi Mendiaz Rodriguez -385685
+* Santiago de la Mora Martínez -385613
+* Jesús Manuel Villegas Terrazas -385743
