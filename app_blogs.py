@@ -58,7 +58,22 @@ class BlogDesktopApp:
         self.crear_pestana_comentar()
         self.crear_pestana_editar()
         self.crear_pestana_eliminar()
+        
+        # preguntamos con que tipo de usuario se va a usar la app
+        es_admin = messagebox.askyesno(
+            "Tipo de usuario",
+            "¿Entrar como administrador?\n\nSí = administrador\nNo = usuario normal",
+        )
 
+        # el usuario normal solo puede ver, publicar y comentar
+        # escondemos las pestañas que solo puede usar el administrador
+        if not es_admin:
+            self.notebook.hide(self.tab_usuario)
+            self.notebook.hide(self.tab_usuarios_lista)
+            self.notebook.hide(self.tab_editar)
+            self.notebook.hide(self.tab_eliminar)
+            self.root.title("Blog - Usuario")
+        
     # nuestra función estrella para ejecutar las queries
     def ejecutar_query(self, query, params=None):
 
