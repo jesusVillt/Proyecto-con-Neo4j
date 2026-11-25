@@ -6,6 +6,16 @@ Este proyecto consiste en una aplicación de escritorio con interfaz gráfica qu
 
 El sistema permite administrar usuarios, artículos, comentarios, categorías y etiquetas, implementando operaciones CRUD (Crear, Leer, Actualizar y Eliminar) para gestionar la información.
 
+
+## Para su uso
+Para poder hacer uso de este programa primero deberá de crear una instancia de base de datos Neo4j. Una vez con la instancia generada 
+deberá iniciar la semilla "schema_and_seed". Luego de esto tendrá que escribir su usuario y contraseña sobre el código app_blogs.py 
+
+URI = "neo4j://127.0.0.1:7687"
+USUARIO = "neo4j"
+PASSWORD = "laContraseñaCreadaParaLaInstancia" 
+
+
 ## Estructura de la base de datos
 
 La base de datos está compuesta por cinco tipos de nodos:
