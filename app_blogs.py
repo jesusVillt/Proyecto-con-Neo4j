@@ -414,10 +414,17 @@ class BlogDesktopApp:
         self.ent_edit_title = ttk.Entry(self.tab_editar, width=40)
         self.ent_edit_title.pack()
 
-        # para capturar el nuevo texto que tendra el articulo
+        # boton para traer el texto actual del articulo
+        ttk.Button(
+            self.tab_editar,
+            text="Cargar Texto",
+            command=self.cargar_texto_editar,
+        ).pack(pady=5)
+
+        # cuadro donde aparece el texto actual y se puede modificar
         ttk.Label(self.tab_editar, text="Nuevo texto:").pack(pady=(5, 0))
-        self.ent_edit_text = ttk.Entry(self.tab_editar, width=40)
-        self.ent_edit_text.pack()
+        self.txt_edit_body = tk.Text(self.tab_editar, width=50, height=10)
+        self.txt_edit_body.pack()
 
         # boton que llama a la funcion editar_articulo al presionarlo
         ttk.Button(
@@ -488,10 +495,27 @@ class BlogDesktopApp:
         else:
             messagebox.showerror("Error", "Usuario o artículo no encontrado.")
 
+    def cargar_texto_editar(self):
+        title = self.ent_edit_title.get().strip()
+
+        # buscamos el articulo y regresamos su texto actual
+        query = """
+        MATCH (a:Article {title: $title})
+        RETURN a.text AS texto
+        """
+        res = self.ejecutar_query(query, {"title": title})
+
+        if res:
+            # borramos lo que haya en el cuadro y ponemos el texto actual
+            self.txt_edit_body.delete("1.0", tk.END)
+            self.txt_edit_body.insert("1.0", res[0]["texto"])
+        else:
+            messagebox.showerror("Error", "Artículo no encontrado.")
+    
     def editar_articulo(self):
         # obtenemos lo que el usuario escribio en las casillas
         title = self.ent_edit_title.get().strip()
-        texto = self.ent_edit_text.get().strip()
+        texto = self.txt_edit_body.get("1.0", tk.END).strip()
 
         # buscamos el articulo por su titulo y con SET le cambiamos el texto
         # si no existe el articulo, el MATCH no encuentra nada y no regresa resultados
