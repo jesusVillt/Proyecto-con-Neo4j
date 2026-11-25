@@ -39,7 +39,7 @@ Para garantizar la integridad de la información, se establecieron las siguiente
 
 ## Funcionalidades principales
 
-La aplicación cuenta con seis módulos principales:
+La aplicación cuenta con siete módulos principales:
 
 | Módulo | Descripción |
 |---|---|
@@ -48,6 +48,7 @@ La aplicación cuenta con seis módulos principales:
 | **Usuarios** | Muestra todos los usuarios registrados e incluye un buscador por nombre o correo electrónico. |
 | **Publicar artículo** | Permite a un usuario registrado publicar artículos indicando título, contenido, categoría y etiquetas. |
 | **Comentar** | Permite agregar comentarios a artículos existentes, identificando al usuario mediante su correo electrónico. |
+| **Editar artículo** | Permite modificar el texto de un artículo existente utilizando su título exacto. |
 | **Eliminar artículo** | Permite eliminar un artículo utilizando su título exacto. |
 
 ## Validaciones del sistema

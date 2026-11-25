@@ -39,6 +39,7 @@ class BlogDesktopApp:
         self.tab_usuarios_lista = ttk.Frame(self.notebook)
         self.tab_articulo = ttk.Frame(self.notebook)
         self.tab_comentar = ttk.Frame(self.notebook)
+        self.tab_editar = ttk.Frame(self.notebook)
         self.tab_eliminar = ttk.Frame(self.notebook)
 
         self.notebook.add(self.tab_ver, text="Ver Artículos")
@@ -46,6 +47,7 @@ class BlogDesktopApp:
         self.notebook.add(self.tab_usuarios_lista, text="Usuarios")
         self.notebook.add(self.tab_articulo, text="Publicar Artículo")
         self.notebook.add(self.tab_comentar, text="Comentar")
+        self.notebook.add(self.tab_editar, text="Editar")
         self.notebook.add(self.tab_eliminar, text="Eliminar")
 
         # inicializamos los frames:
@@ -54,6 +56,7 @@ class BlogDesktopApp:
         self.crear_pestana_usuarios_lista()
         self.crear_pestana_articulo()
         self.crear_pestana_comentar()
+        self.crear_pestana_editar()
         self.crear_pestana_eliminar()
 
     # nuestra función estrella para ejecutar las queries
@@ -394,6 +397,32 @@ class BlogDesktopApp:
             text="Publicar Comentario",
             command=self.agregar_comentario, # la funcion que se llamará al presionar el boton
         ).pack(pady=15)
+        
+    # -- crear pestaña para editar articulos
+    def crear_pestana_editar(self):
+        # el titulo de la seccion
+        ttk.Label(
+            self.tab_editar,
+            text="--- EDITAR ARTÍCULO ---",
+            font=("Arial", 10, "bold"),
+        ).pack(pady=(20, 5))
+
+        # para capturar el titulo del articulo que queremos editar (tiene que ser exacto)
+        ttk.Label(self.tab_editar, text="Título exacto del artículo:").pack()
+        self.ent_edit_title = ttk.Entry(self.tab_editar, width=40)
+        self.ent_edit_title.pack()
+
+        # para capturar el nuevo texto que tendra el articulo
+        ttk.Label(self.tab_editar, text="Nuevo texto:").pack(pady=(5, 0))
+        self.ent_edit_text = ttk.Entry(self.tab_editar, width=40)
+        self.ent_edit_text.pack()
+
+        # boton que llama a la funcion editar_articulo al presionarlo
+        ttk.Button(
+            self.tab_editar,
+            text="Guardar Cambios",
+            command=self.editar_articulo,
+        ).pack(pady=15)
 
     # -- crear pestaña para eliminar
     def crear_pestana_eliminar(self):
@@ -456,6 +485,29 @@ class BlogDesktopApp:
             self.cargar_articulos() # actualizamos automaticamente
         else:
             messagebox.showerror("Error", "Usuario o artículo no encontrado.")
+
+    def editar_articulo(self):
+        # obtenemos lo que el usuario escribio en las casillas
+        title = self.ent_edit_title.get().strip()
+        texto = self.ent_edit_text.get().strip()
+
+        # buscamos el articulo por su titulo y con SET le cambiamos el texto
+        # si no existe el articulo, el MATCH no encuentra nada y no regresa resultados
+        query = """
+        MATCH (a:Article {title: $title})
+        SET a.text = $texto
+        RETURN a.title AS title
+        """
+
+        # mandamos a ejecutar el query con sus parametros
+        res = self.ejecutar_query(query, {"title": title, "texto": texto})
+
+        # si res tiene algo, el articulo si existia y se actualizo
+        if res:
+            messagebox.showinfo("Éxito", "Artículo actualizado.")
+            self.cargar_articulos() # actualizamos la lista de articulos
+        else:
+            messagebox.showerror("Error", "Artículo no encontrado.")
 
     def eliminar_articulo(self):
         title = self.ent_del_title.get().strip()
