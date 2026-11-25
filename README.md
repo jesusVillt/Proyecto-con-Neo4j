@@ -59,10 +59,4 @@ El programa incorpora diferentes validaciones para evitar inconsistencias en la 
 
 ## Objetivo del proyecto
 
-Desarrollar una aplicación gráfica que permita interactuar de manera sencilla con una base de datos orientada a grafos, demostrando el uso de Neo4j para modelar relaciones entre diferentes entidades y realizar operaciones de administración de información.
-
-## Conclusión
-
-El proyecto implementa un sistema básico de gestión de blogs utilizando Neo4j como motor de base de datos. Mediante una interfaz gráfica, los usuarios pueden registrar cuentas, publicar artículos, realizar comentarios, consultar información y eliminar publicaciones.
-
-Además, las restricciones y validaciones implementadas permiten mantener la integridad de los datos y garantizar el correcto funcionamiento del sistema.
+Desarrollar una aplicación gráfica que permita interactuar de manera sencilla con una base de datos orientada a grafos, demostrando el uso de Neo4j para modelar relaciones entre diferentes entidades y realizar operaciones de administración de información
